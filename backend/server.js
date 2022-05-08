@@ -11,6 +11,7 @@ const options = {
 };
 //cors
 app.use(cors(options));
+app.use(express.json());
 //route
 app.get("/", (req, res) => {
   res.send("welcome from home");
@@ -19,7 +20,6 @@ readdirSync("./routes").map((r) =>
   app.use("/api", require(`./routes/${r}/${r}.route`))
 );
 //database
-console.log(process.env.DATABASE);
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
