@@ -80,8 +80,7 @@ const userSchema = mongoose.Schema(
     },
     search: [
       {
-        user: { type: ObjectId },
-        ref: "User",
+        user: { type: ObjectId, ref: "User" },
       },
     ],
     details: {
