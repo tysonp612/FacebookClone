@@ -5,30 +5,37 @@ const userSchema = mongoose.Schema(
     first_name: {
       type: String,
       required: [true, "first name is required"],
+      minlength: [2, "First name is too short"],
+      maxlength: [32, "First name is too long"],
       trim: true,
       text: true,
     },
     last_name: {
       type: String,
       required: [true, "last name is required"],
+      minlength: [2, "Last name is too short"],
+      maxlength: [32, "Last name is too long"],
       trim: true,
       text: true,
     },
     username: {
       type: String,
-      required: [true, "username is required"],
+      required: [true, "Username is required"],
       trim: true,
+      minlength: [2, "User name is too short"],
+      maxlength: [32, "User name is too long"],
       text: true,
       unique: true,
     },
     email: {
       type: String,
-      required: [true, "email is required"],
+      required: [true, "Email is required"],
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "password is required"],
+      required: [true, "Password is required"],
+      minlength: [6, "Password must be at least 6 characters"],
     },
     pictrue: {
       type: String,
@@ -40,7 +47,7 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      required: [true, "gender is required"],
+      required: [true, "Gender is required"],
       trim: true,
     },
     birthYear: {
