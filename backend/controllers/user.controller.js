@@ -2,6 +2,7 @@ const User = require("./../models/User");
 const bcrypt = require("bcrypt");
 const { validateEmail, validateUsername } = require("./../helpers/validation");
 const { generateToken } = require("./../helpers/tokens");
+const { sendVerificationEmail } = require("./../helpers/mailer");
 exports.userRegister = async (req, res) => {
   try {
     const {
@@ -17,7 +18,7 @@ exports.userRegister = async (req, res) => {
     } = req.body;
 
     if (!validateEmail(email)) {
-      return res.status(400).json({ message: "invalid email" });
+      return res.status(400).json({ message: "Invalid email" });
     }
     const emailCheck = await User.findOne({ email });
     if (emailCheck) {
@@ -43,7 +44,8 @@ exports.userRegister = async (req, res) => {
       { id: user._id.toString() },
       "30m"
     );
-    console.log(emailVerificationToken);
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}}`;
+    sendVerificationEmail(user.email, user.name, url);
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
