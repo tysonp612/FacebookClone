@@ -6,4 +6,5 @@ const test = () => {
 };
 router.route("/register").post(userController.userRegister);
 router.route("/activate").post(userController.activateAccount);
+router.route("/login").post(userController.loginAccount);
 module.exports = router;
