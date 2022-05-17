@@ -45,8 +45,18 @@ exports.userRegister = async (req, res) => {
       "30m"
     );
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}}`;
-    sendVerificationEmail(user.email, user.name, url);
-    res.status(200).json(user);
+    sendVerificationEmail(user.email, user.first_name, url);
+    const token = generateToken({ id: user._id.toString() }, "7d");
+    res.status(200).json({
+      id: user._id,
+      username: user.username,
+      picture: user.picture,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      token,
+      verified: user.verified,
+      message: "Register Success, please activate your email to start",
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
