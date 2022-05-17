@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const { validateEmail, validateUsername } = require("./../helpers/validation");
 const { generateToken } = require("./../helpers/tokens");
 const { sendVerificationEmail } = require("./../helpers/mailer");
+const jwt = require("jsonwebtoken");
+
 exports.userRegister = async (req, res) => {
   try {
     const {
@@ -59,5 +61,19 @@ exports.userRegister = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.activateAccount = async (req, res) => {
+  const { token } = req.body;
+  const user = jwt.verify(token, process.env.TOKEN_SECRET);
+  const checkUser = await User.findById(user.id);
+  if (checkUser.verified === true) {
+    return res.status(400).json({ message: "This email is already activated" });
+  } else {
+    await User.findByIdAndUpdate(user.id, { verified: true });
+    return res
+      .status(200)
+      .json({ message: "Account is activated successfully" });
   }
 };
