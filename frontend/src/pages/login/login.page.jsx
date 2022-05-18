@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.styles.css";
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
+//components
+import { LoginInput } from "./../../components/input/login_input.component";
 export const LoginPage = () => {
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const handleCredentialChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials({ ...credentials, [name]: value });
+  };
   return (
     <div className="login">
       <div className="login_wrapper">
@@ -17,8 +24,18 @@ export const LoginPage = () => {
               <Formik>
                 {(formik) => (
                   <Form>
-                    <input type="text" />
-                    <input type="text" />
+                    <LoginInput
+                      type="text"
+                      name="email"
+                      handleCredentialChange={handleCredentialChange}
+                      placeholder="Email address or Phone number"
+                    />
+                    <LoginInput
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      handleCredentialChange={handleCredentialChange}
+                    />
                     <button type="submit" className="blue_btn">
                       Log In
                     </button>
