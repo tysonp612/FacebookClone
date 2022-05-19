@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import "./login.styles.css";
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
+import * as Yup from "yup";
 //components
 import { LoginInput } from "./../../components/input/login_input.component";
 export const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const { email, password } = credentials;
   const handleCredentialChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
+  const loginValidation = Yup.object({
+    email: Yup.string()
+      .required("Email address is required")
+      .email("Must be a valid email")
+      .max(100),
+    password: Yup.string().required("Password is required").min(6),
+  });
   return (
     <div className="login">
       <div className="login_wrapper">
@@ -21,7 +30,13 @@ export const LoginPage = () => {
           </div>
           <div className="login_2">
             <div className="login_2_wrap">
-              <Formik>
+              <Formik
+                initialValues={{
+                  email,
+                  password,
+                }}
+                validationSchema={loginValidation}
+              >
                 {(formik) => (
                   <Form>
                     <LoginInput
@@ -35,6 +50,7 @@ export const LoginPage = () => {
                       name="password"
                       placeholder="Password"
                       handleCredentialChange={handleCredentialChange}
+                      bottom={true}
                     />
                     <button type="submit" className="blue_btn">
                       Log In
