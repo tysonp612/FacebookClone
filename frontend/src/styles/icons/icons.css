@@ -746,10 +746,3 @@
   height: 21px;
   width: 21px;
 }
-.error_arrow_top {
-  border-top: 10px solid yellow;
-  border-right: 10px solid transparent;
-  border-left: 10px solid transparent;
-  position: absolute;
-  top: 100%;
-}
