@@ -15,7 +15,16 @@ export const RegisterFormComponent = () => {
     gender: "",
   });
   //NOTE
-  const { bYear, bMonth, bDay } = user;
+  const {
+    first_name,
+    last_name,
+    email,
+    password,
+    bYear,
+    bMonth,
+    bDay,
+    gender,
+  } = user;
   const tempYear = new Date().getFullYear();
   const years = Array.from(new Array(108), (val, index) => tempYear - index);
   const months = Array.from(new Array(12), (val, index) => 1 + index);
@@ -25,6 +34,24 @@ export const RegisterFormComponent = () => {
   };
   const days = Array.from(new Array(getDays()), (val, index) => 1 + index);
 
+  const registerValidation = Yup.object({
+    first_name: Yup.string()
+      .required("What is your first name?")
+      .min(3, "First name must be more than 2 characters")
+      .matches(/^[aA-zZ\s]+$/, "Number and special characters are not allowed"),
+    last_name: Yup.string()
+      .required("What is your last name?")
+      .min(3, "Last name must be more than 2 characters")
+      .matches(/^[aA-zZ\s]+$/, "Number and special characters are not allowed"),
+    email: Yup.string()
+      .required("You will need email to register for an account")
+      .email("Invalid email address"),
+    password: Yup.string()
+      .required(
+        "Enter a combination of at least six number,letters and punctuation characters"
+      )
+      .min(6, "Password must be at least 6 characters"),
+  });
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -38,11 +65,18 @@ export const RegisterFormComponent = () => {
           <span>It's quick and easy</span>
         </div>
         <Formik
-        //   initialValues={{
-        //     firstName,
-        //     surName,
-        //     email,
-        //   }}
+          enableReinitialize
+          initialValues={{
+            first_name,
+            last_name,
+            email,
+            password,
+            bYear,
+            bMonth,
+            bDay,
+            gender,
+          }}
+          validationSchema={registerValidation}
         >
           {(formik) => (
             <Form className="register_form">
