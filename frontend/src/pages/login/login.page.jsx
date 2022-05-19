@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 //components
 import { LoginInput } from "./../../components/input/login_input.component";
+import { FooterComponent } from "./../../components/footer/footer.component";
 export const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const { email, password } = credentials;
@@ -73,6 +74,7 @@ export const LoginPage = () => {
           </div>
         </div>
         <div className="register"></div>
+        <FooterComponent />
       </div>
     </div>
   );
