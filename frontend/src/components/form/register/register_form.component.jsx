@@ -9,10 +9,22 @@ export const RegisterFormComponent = () => {
     last_name: "",
     email: "",
     password: "",
-    bYear: "",
-    bDay: "",
+    bYear: new Date().getFullYear(),
+    bMonth: new Date().getMonth() + 1,
+    bDay: new Date().getDate(),
     gender: "",
   });
+  //NOTE
+  const { bYear, bMonth, bDay } = user;
+  const tempYear = new Date().getFullYear();
+  const years = Array.from(new Array(108), (val, index) => tempYear - index);
+  const months = Array.from(new Array(12), (val, index) => 1 + index);
+
+  const getDays = () => {
+    return new Date(bYear, bMonth, 0).getDate();
+  };
+  const days = Array.from(new Array(getDays()), (val, index) => 1 + index);
+
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -70,9 +82,33 @@ export const RegisterFormComponent = () => {
                   <i className="info_icon"></i>
                 </div>
                 <div className="reg_grid">
-                  <select name="bDay"></select>
-                  <select name="bMonth"></select>
-                  <select name="bYear"></select>
+                  <select
+                    name="bDay"
+                    value={bDay}
+                    onChange={(e) => handleRegisterChange(e)}
+                  >
+                    {days.map((day, i) => {
+                      return <option key={i}>{day}</option>;
+                    })}
+                  </select>
+                  <select
+                    name="bMonth"
+                    value={bMonth}
+                    onChange={(e) => handleRegisterChange(e)}
+                  >
+                    {months.map((month, i) => {
+                      return <option key={i}>{month}</option>;
+                    })}
+                  </select>
+                  <select
+                    name="bYear"
+                    value={bYear}
+                    onChange={(e) => handleRegisterChange(e)}
+                  >
+                    {years.map((year, i) => {
+                      return <option key={i}>{year}</option>;
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="reg_col">
